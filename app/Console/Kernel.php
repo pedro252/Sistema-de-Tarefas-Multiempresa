@@ -13,7 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        \App\Console\Commands\CreateFirstUser::class,
+        \App\Console\Commands\ListUsers::class,
+        \App\Console\Commands\ClearTestData::class,
     ];
 
     /**

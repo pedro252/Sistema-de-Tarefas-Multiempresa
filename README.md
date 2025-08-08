@@ -120,16 +120,40 @@ php artisan serve
 
 ## 🎯 Primeiro Acesso
 
-### Opção 1: Usar o comando Artisan
-```bash
-php artisan app:create-first-user
-```
-Siga as instruções interativas para criar a primeira empresa e usuário.
+### Configuração Inicial
 
-### Opção 2: Usar os dados do seeder
+1. **Execute as migrations:**
+   ```bash
+   php artisan migrate
+   ```
+
+2. **Crie a primeira empresa e usuário:**
+   ```bash
+   php artisan app:create-first-user
+   ```
+   Siga as instruções interativas para criar a primeira empresa e usuário administrador.
+
+3. **Inicie o servidor:**
+   ```bash
+   php artisan serve
+   ```
+
+4. **Acesse o sistema:**
+   - URL: http://localhost:8000
+   - Use as credenciais criadas no passo 2
+
+### Opções Alternativas
+
+#### Usar dados do seeder
 Se você executou `php artisan db:seed`, pode usar:
 - **Email**: joao@techsolutions.com
 - **Senha**: password123
+
+#### Verificar dados existentes
+Para ver empresas e usuários já cadastrados:
+```bash
+php artisan app:list-users
+```
 
 ## 📚 API Endpoints
 
@@ -163,22 +187,54 @@ GET /api/tarefas/exportar - Exportar tarefas em Excel
 
 ## 🔧 Comandos Artisan
 
-### Criar primeiro usuário
+### Comandos do Sistema
+
+#### Criar primeiro usuário
 ```bash
 php artisan app:create-first-user
 ```
+Cria interativamente a primeira empresa e usuário do sistema.
 
-### Limpar cache
+#### Listar empresas e usuários
+```bash
+# Listar todas as empresas e usuários
+php artisan app:list-users
+
+# Listar apenas usuários de uma empresa específica
+php artisan app:list-users --empresa=1
+```
+
+#### Limpar dados de teste
+```bash
+# Com confirmação interativa
+php artisan app:clear-test-data
+
+# Forçar limpeza sem confirmação
+php artisan app:clear-test-data --force
+```
+⚠️ **ATENÇÃO:** Este comando remove TODOS os dados do sistema!
+
+### Comandos Úteis
+
+#### Limpar cache
 ```bash
 php artisan cache:clear
 php artisan config:clear
 php artisan route:clear
 ```
 
-### Processar filas
+#### Processar filas
 ```bash
 php artisan queue:work
 ```
+
+#### Verificar status
+```bash
+php artisan migrate:status
+php artisan queue:failed
+```
+
+Para mais detalhes sobre os comandos, consulte o arquivo `COMANDOS_ARTISAN.md`.
 
 ## 🎨 Frontend
 
