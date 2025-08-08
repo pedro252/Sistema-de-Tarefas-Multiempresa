@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TarefaExportController;
+use App\Http\Controllers\TarefaImportController;
+use App\Http\Controllers\TarefaTemplateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +17,20 @@ use App\Http\Controllers\TarefaExportController;
 */
 
 Route::get('/', function () {
-    return view('app');
+    return view('auth.login');
 });
+
+Route::get('/cadastro', function () {
+    return view('cadastro.index');
+});
+
+Route::get('/tarefas', function () {
+    return view('tarefas.index');
+});
+
 Route::get('/tarefas/exportar', [TarefaExportController::class, 'export'])->name('tarefas.export');
+// Route::post('/tarefas/importar', [TarefaImportController::class, 'import'])->name('tarefas.import');
+Route::get('/tarefas/template', [TarefaTemplateController::class, 'downloadTemplate'])->name('tarefas.template');
 
 
 

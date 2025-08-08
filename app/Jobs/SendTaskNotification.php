@@ -26,7 +26,6 @@ class SendTaskNotification implements ShouldQueue
     {
         $user = $this->tarefa->user;
 
-        // Se não achar usuário, aborta para evitar erro
         if (!$user) {
             return;
         }

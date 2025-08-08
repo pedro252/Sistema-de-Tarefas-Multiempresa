@@ -103,7 +103,6 @@ new Vue({
                 const response = await axios.post('/login', this.loginForm);
                 this.setAuthData(response.data);
                 this.loadTasks();
-                this.showSuccess('Login realizado com sucesso!');
             } catch (error) {
                 this.showError('Erro no login: ' + this.getErrorMessage(error));
             } finally {
@@ -117,7 +116,6 @@ new Vue({
                 const response = await axios.post('/register', this.registerForm);
                 this.setAuthData(response.data);
                 this.loadTasks();
-                this.showSuccess('Conta criada com sucesso!');
             } catch (error) {
                 this.showError('Erro no registro: ' + this.getErrorMessage(error));
             } finally {
@@ -132,7 +130,6 @@ new Vue({
                 console.error('Erro no logout:', error);
             } finally {
                 this.clearAuthData();
-                this.showSuccess('Logout realizado com sucesso!');
             }
         },
         

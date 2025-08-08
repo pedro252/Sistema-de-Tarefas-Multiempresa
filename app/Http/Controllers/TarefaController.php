@@ -11,10 +11,10 @@ use App\Jobs\SendTaskNotification;
 
 class TarefaController extends Controller
 {
-        public function index()
-        {
-            return Tarefa::where('empresa_id', auth()->user()->empresa_id)->get();
-        }
+            public function index()
+    {
+        return Tarefa::where('user_id', auth()->id())->get();
+    }
     
         public function store(Request $request)
         {
@@ -36,7 +36,6 @@ class TarefaController extends Controller
                 'status' => $request->status,
                 'prioridade' => $request->prioridade,
                 'data_limite' => $request->data_limite,
-                'empresa_id' => auth()->user()->empresa_id,
                 'user_id' => auth()->id(),
             ]);
 
@@ -45,20 +44,20 @@ class TarefaController extends Controller
             return response()->json($tarefa, 201);
         }
     
-        public function show($id)
-        {
-            $tarefa = Tarefa::where('id', $id)
-                ->where('empresa_id', auth()->user()->empresa_id)
-                ->firstOrFail();
+            public function show($id)
+    {
+        $tarefa = Tarefa::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        return response()->json($tarefa);
+    }
     
-            return response()->json($tarefa);
-        }
-    
-        public function update(Request $request, $id)
-        {
-            $tarefa = Tarefa::where('id', $id)
-                ->where('empresa_id', auth()->user()->empresa_id)
-                ->firstOrFail();
+            public function update(Request $request, $id)
+    {
+        $tarefa = Tarefa::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
     
             $validator = Validator::make($request->all(), [
                 'titulo' => 'required|string|max:255',
@@ -81,11 +80,11 @@ class TarefaController extends Controller
             return response()->json($tarefa);
         }
     
-            public function destroy($id)
-    {
-        $tarefa = Tarefa::where('id', $id)
-            ->where('empresa_id', auth()->user()->empresa_id)
-            ->firstOrFail();
+                public function destroy($id)
+{
+    $tarefa = Tarefa::where('id', $id)
+        ->where('user_id', auth()->id())
+        ->firstOrFail();
 
         $tarefa->delete();
 
@@ -100,7 +99,7 @@ class TarefaController extends Controller
             return response()->json(['error' => 'Status inválido'], 400);
         }
 
-        $tarefas = Tarefa::where('empresa_id', auth()->user()->empresa_id)
+        $tarefas = Tarefa::where('user_id', auth()->id())
             ->where('status', $status)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -116,7 +115,7 @@ class TarefaController extends Controller
             return response()->json(['error' => 'Prioridade inválida'], 400);
         }
 
-        $tarefas = Tarefa::where('empresa_id', auth()->user()->empresa_id)
+        $tarefas = Tarefa::where('user_id', auth()->id())
             ->where('prioridade', $prioridade)
             ->orderBy('created_at', 'desc')
             ->get();

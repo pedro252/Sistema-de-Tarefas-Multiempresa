@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TarefaController;
 use App\Http\Controllers\TarefaExportController;
+use App\Http\Controllers\TarefaImportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +26,11 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
     
     Route::apiResource('tarefas', TarefaController::class);
+    // Route::middleware('auth:api')->get('/tarefas/exportar', [TarefaExportController::class, 'export']);
+
     
     Route::get('/tarefas/filtrar/status/{status}', [TarefaController::class, 'filtrarPorStatus']);
     Route::get('/tarefas/filtrar/prioridade/{prioridade}', [TarefaController::class, 'filtrarPorPrioridade']);
+    Route::post('/tarefas/importar', [TarefaImportController::class, 'import'])->name('tarefas.import');
+
 });
