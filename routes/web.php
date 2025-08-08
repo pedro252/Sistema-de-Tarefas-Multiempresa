@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TarefaController;
+use App\Http\Controllers\TarefaExportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +15,10 @@ use App\Http\Controllers\TarefaController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('app');
 });
+Route::get('/tarefas/exportar', [TarefaExportController::class, 'export'])->name('tarefas.export');
+
 
 
 

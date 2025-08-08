@@ -81,14 +81,46 @@ class TarefaController extends Controller
             return response()->json($tarefa);
         }
     
-        public function destroy($id)
-        {
-            $tarefa = Tarefa::where('id', $id)
-                ->where('empresa_id', auth()->user()->empresa_id)
-                ->firstOrFail();
-    
-            $tarefa->delete();
-    
-            return response()->json(['mensagem' => 'Tarefa excluída com sucesso.']);
-        }
+            public function destroy($id)
+    {
+        $tarefa = Tarefa::where('id', $id)
+            ->where('empresa_id', auth()->user()->empresa_id)
+            ->firstOrFail();
+
+        $tarefa->delete();
+
+        return response()->json(['mensagem' => 'Tarefa excluída com sucesso.']);
     }
+
+    public function filtrarPorStatus($status)
+    {
+        $statuses = ['pendente', 'em_andamento', 'concluida'];
+        
+        if (!in_array($status, $statuses)) {
+            return response()->json(['error' => 'Status inválido'], 400);
+        }
+
+        $tarefas = Tarefa::where('empresa_id', auth()->user()->empresa_id)
+            ->where('status', $status)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($tarefas);
+    }
+
+    public function filtrarPorPrioridade($prioridade)
+    {
+        $prioridades = ['baixa', 'media', 'alta'];
+        
+        if (!in_array($prioridade, $prioridades)) {
+            return response()->json(['error' => 'Prioridade inválida'], 400);
+        }
+
+        $tarefas = Tarefa::where('empresa_id', auth()->user()->empresa_id)
+            ->where('prioridade', $prioridade)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($tarefas);
+    }
+}

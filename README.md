@@ -1,61 +1,260 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Sistema de Tarefas Multiempresa
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+Sistema completo de gerenciamento de tarefas (todo list) com suporte a múltiplas empresas (multitenancy), autenticação JWT e comunicação via API REST.
 
-## About Laravel
+## 🚀 Tecnologias
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Backend**: Laravel 8 com JWT (tymon/jwt-auth)
+- **Frontend**: Vue.js 2 com Bootstrap 5
+- **Banco de Dados**: MySQL/PostgreSQL
+- **Exportação**: Laravel Excel (maatwebsite/excel)
+- **Filas**: Laravel Queues para processamento assíncrono
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Funcionalidades
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🔐 Autenticação
+- Registro e login com autenticação JWT
+- Cada usuário pertence a uma empresa específica (tenant)
+- Isolamento completo dos dados por empresa
 
-## Learning Laravel
+### 🏢 Multitenancy
+- Suporte a múltiplas empresas
+- Isolamento automático dos dados de tarefas e usuários
+- Dados da empresa: nome e identificador único
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 📋 Gerenciamento de Tarefas
+- CRUD completo de tarefas
+- Campos: título, descrição, status, prioridade, data limite
+- Validação completa dos campos
+- Filtros por status e prioridade
+- Busca por título e descrição
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 📧 Notificações
+- Envio automático de e-mails ao criar tarefa
+- Envio automático de e-mails ao concluir tarefa
+- Processamento assíncrono via filas
 
-## Laravel Sponsors
+### 📊 Exportação
+- Exportação de tarefas em Excel
+- Filtros aplicados na exportação
+- Download automático do arquivo
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## 🛠️ Instalação
 
-### Premium Partners
+### Pré-requisitos
+- PHP 8.0 ou superior
+- Composer
+- MySQL/PostgreSQL
+- Node.js (opcional, para compilação de assets)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+### 1. Clone o repositório
+```bash
+git clone <url-do-repositorio>
+cd tarefas-multiempresa
+```
 
-## Contributing
+### 2. Instale as dependências
+```bash
+composer install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Configure o ambiente
+```bash
+cp .env.example .env
+php artisan key:generate
+php artisan jwt:secret
+```
 
-## Code of Conduct
+### 4. Configure o banco de dados
+Edite o arquivo `.env` com suas configurações de banco:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=tarefas_multiempresa
+DB_USERNAME=seu_usuario
+DB_PASSWORD=sua_senha
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 5. Configure o e-mail (opcional)
+Para as notificações funcionarem, configure o e-mail no `.env`:
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=seu_email@gmail.com
+MAIL_PASSWORD=sua_senha_app
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=seu_email@gmail.com
+MAIL_FROM_NAME="${APP_NAME}"
+```
 
-## Security Vulnerabilities
+### 6. Execute as migrations
+```bash
+php artisan migrate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 7. Execute os seeders (opcional)
+```bash
+php artisan db:seed
+```
 
-## License
+### 8. Configure as filas (opcional)
+Para processamento assíncrono das notificações:
+```bash
+# Configure o driver de fila no .env
+QUEUE_CONNECTION=database
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Execute a migration das filas
+php artisan queue:table
+php artisan migrate
+
+# Inicie o worker das filas
+php artisan queue:work
+```
+
+### 9. Inicie o servidor
+```bash
+php artisan serve
+```
+
+## 🎯 Primeiro Acesso
+
+### Opção 1: Usar o comando Artisan
+```bash
+php artisan app:create-first-user
+```
+Siga as instruções interativas para criar a primeira empresa e usuário.
+
+### Opção 2: Usar os dados do seeder
+Se você executou `php artisan db:seed`, pode usar:
+- **Email**: joao@techsolutions.com
+- **Senha**: password123
+
+## 📚 API Endpoints
+
+### Autenticação
+```
+POST /api/register - Registrar novo usuário
+POST /api/login - Fazer login
+POST /api/logout - Fazer logout
+GET /api/user - Obter dados do usuário
+```
+
+### Tarefas
+```
+GET /api/tarefas - Listar tarefas
+POST /api/tarefas - Criar tarefa
+GET /api/tarefas/{id} - Obter tarefa
+PUT /api/tarefas/{id} - Atualizar tarefa
+DELETE /api/tarefas/{id} - Excluir tarefa
+```
+
+### Filtros
+```
+GET /api/tarefas/filtrar/status/{status} - Filtrar por status
+GET /api/tarefas/filtrar/prioridade/{prioridade} - Filtrar por prioridade
+```
+
+### Exportação
+```
+GET /api/tarefas/exportar - Exportar tarefas em Excel
+```
+
+## 🔧 Comandos Artisan
+
+### Criar primeiro usuário
+```bash
+php artisan app:create-first-user
+```
+
+### Limpar cache
+```bash
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+```
+
+### Processar filas
+```bash
+php artisan queue:work
+```
+
+## 🎨 Frontend
+
+O frontend está implementado em Vue.js 2 com:
+- Interface responsiva com Bootstrap 5
+- Autenticação JWT
+- CRUD completo de tarefas
+- Filtros e busca
+- Exportação de dados
+- Validações em tempo real
+
+### Acesse a aplicação
+Após iniciar o servidor, acesse: `http://localhost:8000`
+
+## 🔒 Segurança
+
+- Autenticação JWT com tokens seguros
+- Isolamento completo de dados por empresa
+- Validação de entrada em todos os endpoints
+- Proteção CSRF
+- Sanitização de dados
+
+## 📧 Notificações
+
+O sistema envia automaticamente e-mails para:
+- Criação de nova tarefa
+- Conclusão de tarefa
+
+Para que as notificações funcionem:
+1. Configure o e-mail no `.env`
+2. Execute `php artisan queue:work` para processar as filas
+
+## 🚀 Deploy
+
+### Produção
+1. Configure o ambiente de produção no `.env`
+2. Execute `composer install --optimize-autoloader --no-dev`
+3. Configure o servidor web (Apache/Nginx)
+4. Configure as filas para produção
+
+### Docker (opcional)
+```bash
+# Build da imagem
+docker build -t tarefas-multiempresa .
+
+# Executar container
+docker run -p 8000:8000 tarefas-multiempresa
+```
+
+## 🤝 Contribuição
+
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+
+## 🆘 Suporte
+
+Se você encontrar algum problema ou tiver dúvidas:
+1. Verifique se todas as dependências estão instaladas
+2. Confirme se o banco de dados está configurado corretamente
+3. Verifique os logs em `storage/logs/laravel.log`
+4. Abra uma issue no repositório
+
+## 📝 Changelog
+
+### v1.0.0
+- Implementação inicial do sistema
+- Autenticação JWT
+- CRUD de tarefas
+- Multitenancy
+- Frontend Vue.js
+- Exportação Excel
+- Notificações por e-mail

@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // User::factory(10)->create();
+        // Intencionalmente sem seed de dados fictícios.
+        // Mantenha este arquivo caso queira adicionar seeds específicos do ambiente futuramente.
     }
 }

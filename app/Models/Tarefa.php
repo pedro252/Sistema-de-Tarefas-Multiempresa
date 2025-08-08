@@ -10,7 +10,7 @@ use App\Models\Empresa;
 class Tarefa extends Model
 {
     use HasFactory;
-    
+    protected $dates = ['data_limite', 'created_at', 'updated_at'];
     protected $fillable = [
         'titulo',
         'descricao',
